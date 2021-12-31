@@ -6,11 +6,13 @@ base_url = 'https://www.imdb.com'
 url = '/chart/moviemeter/?ref_=nv_mv_mpm'
 
 def get_url_data(url) -> BeautifulSoup:
+    print('Getting data ...')
     result = requests.get(url)
     soup = BeautifulSoup(result.text, 'html.parser')
     return soup
 
 def parse_data(obj: BeautifulSoup) -> dict:
+    print('Parsing data ...')
     movies = {'most_popular_movies':{}}
     tbody = obj.find('tbody', {'class': 'lister-list'})
     trs = tbody.find_all('tr')
@@ -35,8 +37,7 @@ def convert_csv(movies: dict):
         dict_writher.writeheader()
         dict_writher.writerows(to_csv)
 
-    print('check the file!')
-    
+    print('Check the file!')
 
 def main():
     result = get_url_data(base_url + url)
